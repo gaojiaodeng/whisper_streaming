@@ -217,8 +217,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         connection.send(
             json.dumps(
                 {
-                    "uid": self.client_uid,
-                    "message": self.SERVER_READY,
+                    "message": "SERVER_READY",
                     "backend": "tensorrt"
                 }
             )
