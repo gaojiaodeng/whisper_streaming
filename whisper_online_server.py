@@ -21,6 +21,7 @@ args = parser.parse_args()
 # setting whisper object by args 
 
 SAMPLING_RATE = 16000
+SERVER_READY = "SERVER_READY"
 
 size = args.model
 language = args.lan
@@ -217,7 +218,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         connection.send(
             json.dumps(
                 {
-                    "message": "SERVER_READY",
+                    "message": SERVER_READY,
                     "backend": "tensorrt"
                 }
             )
