@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import json
+
 from whisper_online import *
 
 import sys
@@ -166,9 +168,14 @@ class ServerProcessor:
             return None
 
     def send_result(self, o):
-        msg = self.format_output_transcript(o)
-        if msg is not None:
-            self.connection.send(msg)
+        # msg = self.format_output_transcript(o)
+        if o is not None:
+            self.connection.send(
+                json.dumps({
+                    # "uid": self.client_uid,
+                    "segments": o,
+                })
+            )
 
     def process(self):
         # handle one client connection
@@ -207,6 +214,15 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         conn, addr = s.accept()
         logging.info('INFO: Connected to client on {}'.format(addr))
         connection = Connection(conn)
+        connection.send(
+            json.dumps(
+                {
+                    "uid": self.client_uid,
+                    "message": self.SERVER_READY,
+                    "backend": "tensorrt"
+                }
+            )
+        )
         proc = ServerProcessor(connection, online, min_chunk)
         proc.process()
         conn.close()
