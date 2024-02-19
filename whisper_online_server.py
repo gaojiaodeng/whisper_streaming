@@ -25,6 +25,7 @@ language = args.lan
 
 t = time.time()
 print(f"Loading Whisper {size} model for {language}...",file=sys.stderr,end=" ",flush=True)
+print(f"args: {args}", file=sys.stderr, end=" ", flush=True)
 
 if args.backend == "faster-whisper":
     from faster_whisper import WhisperModel
